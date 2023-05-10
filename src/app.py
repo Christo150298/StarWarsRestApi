@@ -78,19 +78,19 @@ def get_all_users():
     return jsonify(serialized_list),200
 
 @app.route("/users/favorites/", methods=["GET"])
-def get_single_user_favourites():
+def get_single_user_favorites():
 
     favourites_list = Favorites.query.filter_by(user_id=1)
-    favourite_list_serialized = [ favourite.serialize() for favourite in favourites_list]
+    favourite_list_serialized = [ favourite.serialize() for favorite in favorites_list]
     
-    return jsonify(favourite_list_serialized),200
+    return jsonify(favorite_list_serialized),200
 
 
 @app.route("/favorite/planet/<int:planet_id>", methods=["POST"])
-def add_planet_to_user_favourites(planet_id):
+def add_planet_to_user_favorites(planet_id):
     
     target_planet = Planets.query.get_or_404(planet_id)
-    new_fav = Favourites(
+    new_fav = Favorites(
         user_id = 1,
         external_type = "planet",
         external_id = target_planet.id
@@ -107,10 +107,10 @@ def add_planet_to_user_favourites(planet_id):
 
 
 @app.route("/favorite/people/<int:people_id>", methods=["POST"])
-def add_character_to_user_favourites(people_id):
+def add_character_to_user_favorites(people_id):
     
     target_character = Characters.query.get_or_404(people_id)
-    new_fav = Favourites(
+    new_fav = Favorites(
         user_id = 1,
         external_type = "people",
         external_id = target_character.id
@@ -127,9 +127,9 @@ def add_character_to_user_favourites(people_id):
 
 
 @app.route("/favorite/planet/<int:planet_id>", methods=["DELETE"])
-def remove_planet_from_user_favourites(planet_id):
+def remove_planet_from_user_favorites(planet_id):
     
-    target_fav = Favourites.query.filter_by(external_type="planet").filter_by(external_id=planet_id).first()
+    target_fav = Favorites.query.filter_by(external_type="planet").filter_by(external_id=planet_id).first()
 
     db.session.delete(target_fav)
     db.session.commit()
@@ -142,15 +142,15 @@ def remove_planet_from_user_favourites(planet_id):
 
 
 @app.route("/favorite/people/<int:people_id>", methods=["DELETE"])
-def remove_character_from_user_favourites(people_id):
+def remove_character_from_user_favorites(people_id):
     
-    target_fav = Favourites.query.filter_by(external_type="people").filter_by(external_id=people_id).first()
+    target_fav = Favorites.query.filter_by(external_type="people").filter_by(external_id=people_id).first()
 
     db.session.delete(target_fav)
     db.session.commit()
 
     response = {
-        "msg" : "Favourite planet successfully removed"
+        "msg" : "Favorite planet successfully removed"
     }
 
     return jsonify(response),200

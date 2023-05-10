@@ -56,7 +56,7 @@ class Characters(db.Model):
             # do not serialize the password, its a security breach
         }
 
-class Favourites(db.Model):
+class Favorites(db.Model):
     id = db.Column(db.Integer, primary_key=True)
 
     user_id = db.Column(db.Integer, db.ForeignKey("user.id"))
@@ -66,7 +66,7 @@ class Favourites(db.Model):
     external_id = db.Column(db.Integer, nullable=False)
 
     def __repr__(self):
-        return '<Favourite from %r>' % self.user_favorite
+        return '<Favorite from %r>' % self.user_favorite
 
     def serialize(self):
         return {
